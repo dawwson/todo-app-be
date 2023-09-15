@@ -18,7 +18,7 @@ public class TodoService {
 
     /**
      * Todo 생성
-     * @param content - Todo 내용
+     * @param content Todo 내용
      * @return 생성된 todo의 id
      */
     public UUID createTodo(String content) {
@@ -38,8 +38,8 @@ public class TodoService {
 
     /**
      * Todo 수정
-     * @param id - 수정할 Todo id
-     * @param updateTodoDto - 수정할 요소들
+     * @param id 수정할 Todo id
+     * @param updateTodoDto 수정할 요소들
      */
     public void updateTodo(UUID id, UpdateTodoDto updateTodoDto) {
         Todo todo = todoRepository.findById(id);
@@ -48,7 +48,7 @@ public class TodoService {
 
     /**
      * Todo 삭제
-     * @param id - 삭제할 Todo id
+     * @param id 삭제할 Todo id
      */
     public void deleteTodo(UUID id) {
         Todo todo = todoRepository.findById(id);
