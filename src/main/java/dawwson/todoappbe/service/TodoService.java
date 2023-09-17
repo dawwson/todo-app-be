@@ -21,6 +21,7 @@ public class TodoService {
      * @param content Todo 내용
      * @return 생성된 todo의 id
      */
+    @Transactional
     public UUID createTodo(String content) {
         Todo todo = Todo.create(content);
         todoRepository.save(todo);
