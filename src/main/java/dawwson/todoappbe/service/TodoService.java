@@ -42,6 +42,7 @@ public class TodoService {
      * @param id 수정할 Todo id
      * @param updateTodoDto 수정할 요소들
      */
+    @Transactional
     public void updateTodo(UUID id, UpdateTodoDto updateTodoDto) {
         Todo todo = todoRepository.findById(id);
         todo.update(updateTodoDto);
