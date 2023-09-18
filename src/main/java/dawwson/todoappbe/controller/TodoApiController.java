@@ -54,9 +54,17 @@ public class TodoApiController {
     ) {
         todoService.updateTodo(todoId, new UpdateTodoDto(request.getIsDone(), request.getContent()));
         return Response.builder()
-                .code(204)
+                .code(200)
                 .message("Todo is updated successfully")
                 .data(null)
                 .build();
+    }
+
+    @DeleteMapping("/api/v1/todos/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTodo(
+            @PathVariable("id") UUID todoId
+    ) {
+        todoService.deleteTodo(todoId);
     }
 }

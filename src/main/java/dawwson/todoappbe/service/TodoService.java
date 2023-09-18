@@ -52,6 +52,7 @@ public class TodoService {
      * Todo 삭제
      * @param id 삭제할 Todo id
      */
+    @Transactional
     public void deleteTodo(UUID id) {
         Todo todo = todoRepository.findById(id);
         todoRepository.delete(todo);
