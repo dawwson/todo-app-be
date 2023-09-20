@@ -28,7 +28,7 @@ class TodoApiControllerTest {
         // given
 
         // when
-        RequestSpecification request = RestAssured.given().log().uri();
+        RequestSpecification request = RestAssured.given();
         Response response = request.get("/todos");
 
         // then
@@ -69,14 +69,57 @@ class TodoApiControllerTest {
                 .contentType(ContentType.JSON)
                 // when
                 .when()
-                .post("/api/v1/todos")
+                .post("/todos")
                 // then
                 .then().log().all()
-                    .assertThat()
-                        .statusCode(201)
-                        .contentType(ContentType.JSON)
-                        .body("code", is(201))
-                        .body("message", isA(String.class))
-                        .body("data.id", isA(String.class));
+                .assertThat()
+                .statusCode(201)
+                .contentType(ContentType.JSON)
+                .body("code", is(201))
+                .body("message", isA(String.class))
+                .body("data.id", isA(String.class));
+    }
+
+    @Test
+    void 할_일_수정_성공하면_200_응답을_보낸다() throws Exception {
+        // given
+        String testTodoId = "fec21270-8704-460a-aec4-0d324efeb990";
+
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("isDone", true);
+        requestBody.put("content", "This is test content");
+
+        // when
+        RequestSpecification request = RestAssured.given();
+        Response response = request
+                .body(requestBody.toString())
+                .contentType("application/json")
+                .patch("/todos/{todoId}", testTodoId);
+
+        // then
+        response.then()
+                .statusCode(200);
+        response.then()
+                .contentType(ContentType.JSON);
+        response.then()
+                .body("code", is(200))
+                .body("message", isA(String.class))
+                .body("data", nullValue());
+    }
+
+    @Test
+    void 할_일_삭제하기_성공하면_204_응답을_보낸다() {
+        // given
+        String testTodoId = "fec21270-8704-460a-aec4-0d324efeb990";
+
+        // when
+        RequestSpecification request = RestAssured.given();
+        Response response = request
+                .delete("/todos/{todoId}", testTodoId);
+
+        // then
+        response.then()
+                .assertThat()
+                .statusCode(204);
     }
 }
