@@ -57,24 +57,25 @@ class TodoApiControllerTest {
     }
 
     @Test
-    void 할_일_추가하기_성공하면_201_응답을_보낸다() throws JSONException {
-        // TODO: User 생성
+    void 할_일_추가_성공하면_201_응답을_보낸다() throws JSONException {
+        // given
         JSONObject requestBody = new JSONObject();
         requestBody.put("content", "이것은 테스트");
 
-        RestAssured
-                // given
-                .given().log().all()
+        // when
+        RequestSpecification request = RestAssured.given();
+        Response response = request
                 .body(requestBody.toString())
-                .contentType(ContentType.JSON)
-                // when
-                .when()
-                .post("/todos")
-                // then
-                .then().log().all()
+                .contentType("application/json")
+                .post("/todos");
+
+        // then
+        response.then()
                 .assertThat()
-                .statusCode(201)
-                .contentType(ContentType.JSON)
+                .statusCode(201);
+        response.then()
+                .contentType(ContentType.JSON);
+        response.then()
                 .body("code", is(201))
                 .body("message", isA(String.class))
                 .body("data.id", isA(String.class));
@@ -108,7 +109,7 @@ class TodoApiControllerTest {
     }
 
     @Test
-    void 할_일_삭제하기_성공하면_204_응답을_보낸다() {
+    void 할_일_삭제_성공하면_204_응답을_보낸다() {
         // given
         String testTodoId = "fec21270-8704-460a-aec4-0d324efeb990";
 
