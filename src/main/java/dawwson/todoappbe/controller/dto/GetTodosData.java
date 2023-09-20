@@ -9,7 +9,7 @@ import java.util.UUID;
 @Getter
 public class GetTodosData {
     private UUID id;
-    private boolean isDone;
+    private Boolean isDone;
     private String content;
     private LocalDateTime createdAt;
 
