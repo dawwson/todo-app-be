@@ -42,6 +42,7 @@ public class TodoService {
      * @param id 수정할 Todo id
      * @param updateTodoDto 수정할 요소들
      */
+    @Transactional
     public void updateTodo(UUID id, UpdateTodoDto updateTodoDto) {
         Todo todo = todoRepository.findById(id);
         todo.update(updateTodoDto);
@@ -51,6 +52,7 @@ public class TodoService {
      * Todo 삭제
      * @param id 삭제할 Todo id
      */
+    @Transactional
     public void deleteTodo(UUID id) {
         Todo todo = todoRepository.findById(id);
         todoRepository.delete(todo);

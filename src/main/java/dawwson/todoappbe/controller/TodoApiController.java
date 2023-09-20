@@ -1,11 +1,9 @@
 package dawwson.todoappbe.controller;
 
-import dawwson.todoappbe.controller.dto.GetTodosData;
-import dawwson.todoappbe.controller.dto.PostTodoData;
-import dawwson.todoappbe.controller.dto.PostTodoRequest;
-import dawwson.todoappbe.controller.dto.Response;
+import dawwson.todoappbe.controller.dto.*;
 import dawwson.todoappbe.domain.Todo;
 import dawwson.todoappbe.service.TodoService;
+import dawwson.todoappbe.service.dto.UpdateTodoDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -47,5 +45,26 @@ public class TodoApiController {
                 .message("Todo is created successfully")
                 .data(PostTodoData.of(newTodoId))
                 .build();
+    }
+
+    @PatchMapping("/api/v1/todos/{id}")
+    public Response patchTodo(
+            @PathVariable("id") UUID todoId,
+            @RequestBody @Valid PatchTodoRequest request
+    ) {
+        todoService.updateTodo(todoId, new UpdateTodoDto(request.getIsDone(), request.getContent()));
+        return Response.builder()
+                .code(200)
+                .message("Todo is updated successfully")
+                .data(null)
+                .build();
+    }
+
+    @DeleteMapping("/api/v1/todos/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTodo(
+            @PathVariable("id") UUID todoId
+    ) {
+        todoService.deleteTodo(todoId);
     }
 }
